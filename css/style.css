@@ -1,0 +1,209 @@
+/* GLOBAL STYLES FOR PAGE */
+
+body {
+  font-family: "Cochin", serif;
+  color: rgb(255, 255, 255);
+  font-style: italic;
+  background-color: rgb(0,0,0);
+  overflow-x: hidden;
+}
+
+#background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('../images/night_sky.gif');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    z-index: 0;
+    opacity: .5;
+}
+
+a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+/* removes default list-style on left of 40px */
+ul li {
+  list-style: none;
+  margin-left: -40px;
+  padding-left: 40px;
+}
+
+#main {
+  position: relative;
+  top: 130px;
+  width: 960px;
+  margin: 0 auto;
+}
+
+header {
+  position: relative;
+  width: 500px;
+  height: 40px;
+  text-align: center;
+}
+
+/*      MAIN CONTENT       */
+
+#view_container {
+  position: relative;
+  width: 494px;
+  height: 494px;
+  border: 3px solid white;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#view_container iframe {
+    position: relative;
+    top: 75px;
+    left: 50px;
+}
+
+
+.small_circle {
+  width: 30px;
+  height: 30px;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+
+/*      RIGHT / WRONG INSTANT FEEDBACK    */
+
+.start_and_feedback {
+  display: none;
+}
+
+#right_wrong {
+  position: relative;
+  width: 190px;
+  float: left;
+  top: 230px;
+}
+
+#right_wrong li:first-child {
+  width: 130px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+#right_wrong li {
+  float: left;
+  height: 32px;
+  font-size: 28px;
+}
+
+#right_or_wrong_dot {
+  position: relative;
+  top: 10px;
+  margin: 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+
+/*    RIGHT AND WRONG SUMMARY     */
+
+#right_wrong_summary {
+  height: 30px;
+  position: relative;
+  top: -20px;
+  right: 40px;
+}
+
+#right_wrong_summary li {
+  height: 10px;
+  float: right;
+  padding-bottom: 5px; 
+}
+
+.right div {
+  position: relative;
+  top: 0;
+  margin: 0 auto;
+  width: 10px;
+  height: 10px;
+  background-color: rgb(70, 251, 173);
+  border-radius: 50%;
+  float: right;
+  margin-left: 2px;
+}
+
+.wrong div {
+  position: relative;
+  top: 0;
+  margin: 0 auto;
+  width: 10px;
+  height: 10px;
+  background-color: rgb(253, 83, 147);
+  border-radius: 50%;
+  float: right;
+  margin-left: 2px;
+}
+
+/*      SIDE START QUIZ / TRY AGAIN     */
+
+#start {
+  position: relative;
+  width: 190px;
+  float: right;
+  top: -256px;
+}
+
+#start li {
+  float: left;
+  height: 32px;
+  font-size: 28px;
+  text-align: center;
+}
+
+#start li:last-child {
+  width: 130px;
+}
+
+#start .small_circle {
+  background: url('../images/arrow.png');
+}
+
+/*      CHOICES & INFO      */
+
+#choices_and_info {
+  position: relative;
+  top: 10px;
+  width: 250px;
+  margin: 0 auto;
+  left: -10px;
+}
+
+#choices_and_info li {
+  text-align: center;
+}
+
+/*      VIEW      */
+
+.stars {
+  position: absolute;
+  top: 20px;
+  width: 500px;
+  height: 500px;
+  z-index: 2;
+}
+
+.connections {
+  position: absolute;
+  top: 20px;
+  width: 1px;
+  height: 1px;
+  z-index: 1;
+  opacity: 0;
+}
+
+.info {
+  font-size: 0px;
+  opacity: 0;
+}
+
