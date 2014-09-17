@@ -66,11 +66,8 @@ $(document).ready(function() {
 			$('.start_and_feedback').hide();
 			$('.info').hide();
 			$('.choices').show();
-			$('#choices_and_info li').find('input').remove();
-			$('#choices_and_info li').text('');
-			$('#choices_and_info li:nth-child('+ (index + 1) +')').append('<input type="radio" name="choices" value="'+ constellationsSet[index + 1].name +'">'+ constellationsSet[index + 1].name +'</input>');
-			$('#choices_and_info li:nth-child('+ (index + 2) +')').append('<input type="radio" name="choices" value="'+ constellationsSet[index + 2].name +'">'+ constellationsSet[index + 2].name +'</input>');
-			$('#choices_and_info li:nth-child('+ index +')').append('<input type="radio" name="choices" value="'+ rightChoice +'">'+ rightChoice +'</input>');
+			$('#choices_and_info li:nth-child('+ (index + 1) +') input').attr("value", rightChoice);
+			$('#choices_and_info li:nth-child('+ (index + 1) +') span').text(rightChoice);
 		}
 	});
 
@@ -95,8 +92,10 @@ $(document).ready(function() {
 	// 	randomChoicePosition3 = Math.floor((Math.random() * 3) +1);
 	// }
 
-	// load stars 
+	// load stars & choices
 	$('.stars').css("background", "url('"+ constellationsSet[0].stars +"')");
+	$('#choices_and_info li:nth-child('+ (index + 1) +') input').attr("value", rightChoice);
+	$('#choices_and_info li:nth-child('+ (index + 1) +') span').text(rightChoice);
 
 	// 
 	$('input[name="choices"]').on('click', function() {
