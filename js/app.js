@@ -139,16 +139,7 @@ $(document).ready(function() {
 			for (each in wrongs) {
 				$('.wrong').append('<div></div>');
 			}
-			
-			// THIS IS NOT WORKING!!! goal: list all the names of constellations and on click, show stars image only
-			if ($('.summary').text() === 'summary') {
-				$(this).on('click', function() {
-					for (var i = 1; i < constellationsSet.length; i++) {
-						$('#constellationsList').append('<li>'+ constellationsSet[i - 1].name +'</li>');
-					}
-				});
-			}
-			
+
 			// adhoc new quiz functionality... next step: bring everything back to 0 to start anew
 			if ($('.tryAgain').text() === 'try again') {
 				$(this).on('click', function() {
@@ -200,16 +191,29 @@ $(document).ready(function() {
 			// display red dot 
 			$('#right_or_wrong_dot').css('background-color', 'rgb(253, 83, 147)');
 		}
-		$('.choices').hide();
 		$('.name').text(constellationsSet[index].name);
 		$('.subname').text(constellationsSet[index].subname);
+		$('.choices').hide();
 		$('.info').show();
 		$('.info').animate({'font-size': '20px', 'opacity': '1'}, 'slow');
 		$('.start_and_feedback').show();
 		if (index === (constellationsSet.length - 1)) {
 			index++;
 			$('.nextSet').text('summary');
+			$('.summary').on('click', function() {
+				$('.stars').css("background", "url('"+ constellationsSet[index].stars +"')");
+				for (var i = 0; i < constellationsSet.length; i++) {
+					$('#constellationsList').append('<li class="constellationsListItems '+ i +'">'+ constellationsSet[i].name +'</li>');
+				}
+			});
 		}
+	});
+	
+	// on click, show the stars image of the clicked constellation name in list
+	$('#constellationsList').on('click', '.constellationsListItems', function() {
+		var thisStars = $(this).getAttribute('class');
+		$('.stars').css("background", "url('')");
+		$('.stars').css("background", "url('"+ constellationsSet[thisStars].stars +"')");
 	});
 
 });
