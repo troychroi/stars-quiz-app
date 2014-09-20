@@ -208,7 +208,8 @@ $(document).ready(function() {
 			});
 		}
 	});
-
+	
+	// on click, show the stars image of the clicked constellation name in list
 	$('#constellationsList').on('click', '.constellationsListItems', function() {
 		var thisStars = $(this).getAttribute('class');
 		$('.stars').css("background", "url('')");
