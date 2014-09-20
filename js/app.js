@@ -9,11 +9,11 @@ $(document).ready(function() {
 
 	var ursaMajor = new Constellation("Ursa Major", "(Big Dipper)", "images/stars/ursa_major_stars.png", "images/connections/ursa_major_connections.png");
 	var perseus = new Constellation("Perseus", "", "images/stars/perseus_stars.png", "images/connections/perseus_connections.png");
-	var pegasus = new Constellation("Pegasus", "", "images/stars/pegasus_stars.png", "images/connections/pegasus_connections.png");
 	var orion = new Constellation("Orion", "", "images/stars/orion_stars.png", "images/connections/orion_connections.png");
 	var hercules = new Constellation("Hercules", "", "images/stars/hercules_stars.png", "images/connections/hercules_connections.png");
 	var cygnus = new Constellation("Cygnus", "(The Swan)", "images/stars/cygnus_stars.png", "images/connections/cygnus_connections.png");
 	var cassiopea = new Constellation("Cassiopea", "", "images/stars/cassiopea_stars.png", "images/connections/cassiopea_connections.png");
+	var pegasus = new Constellation("Pegasus", "", "images/stars/pegasus_stars.png", "images/connections/pegasus_connections.png");
 
 	var rights = [];
 	var wrongs = [];
@@ -21,18 +21,105 @@ $(document).ready(function() {
 	var constellationsSet = [
 		ursaMajor,
 		perseus,
-		pegasus,
 		orion,
 		hercules,
 		cygnus,
-		cassiopea
+		cassiopea,
+		pegasus
 	];
 
 	var index = 0;
 
+	var falseChoices = [];
+	function generateRandomFalseChoices() {
+		var iRandom = Math.floor((Math.random() * 6) +1);
+		switch(true) {
+			case iRandom === index && index !== 1:
+				console.log('index: '+ index +' iRandom: '+ iRandom + 'iRandom === 1 && index === 1');
+				falseChoices[0] = constellationsSet[index - 1].name;
+				falseChoices[1] = constellationsSet[index - 2].name;
+				break;
+			case iRandom === 1 && index === 1:
+				console.log('index: '+ index +' iRandom: '+ iRandom + 'iRandom === 1 && index === 1');
+				falseChoices[0] = constellationsSet[0].name;
+				falseChoices[1] = constellationsSet[3].name;
+				break;
+			case iRandom - 1 === index && iRandom !== 2:
+				console.log('index: '+ index +' iRandom: '+ iRandom +'iRandom - 1 === index');
+				falseChoices[0] = constellationsSet[iRandom].name;
+				falseChoices[1] = constellationsSet[(Math.abs(index * 2 - iRandom - 1))].name;
+				break;
+			case index === 1 && iRandom === 2:
+				console.log('index: '+ index +' iRandom: '+ iRandom +'iRandom - 1 === index');
+				falseChoices[0] = constellationsSet[iRandom].name;
+				falseChoices[1] = constellationsSet[(Math.abs(index * 3 - iRandom - 1))].name;
+				break;
+			case iRandom - index === index || index - iRandom === iRandom:
+				console.log('index: '+ index +' iRandom: '+ iRandom +'iRandom - index === index || index - iRandom === iRandom');
+				falseChoices[0] = constellationsSet[(Math.abs(iRandom - this.length - 1))].name;
+				falseChoices[1] = constellationsSet[iRandom].name;
+				break;
+			case iRandom !== index && index !== 0 && iRandom !== (index * 2):
+				console.log('index: '+ index +' iRandom: '+ iRandom +'iRandom !== index && index !== 0 && iRandom !== (index * 2)');
+				falseChoices[0] = constellationsSet[iRandom].name;
+				falseChoices[1] = constellationsSet[(Math.abs(iRandom - index))].name;
+				break;
+			case iRandom !== 1 && index === 0:
+				console.log('index: '+ index +' iRandom: '+ iRandom +'iRandom !== 1 && index === 0');
+				falseChoices[0] = constellationsSet[iRandom].name;
+				falseChoices[1] = constellationsSet[(Math.abs(iRandom - 1))].name;
+				break;
+			case iRandom === 1 && index === 0:
+				console.log('index: '+ index +' iRandom: '+ iRandom +'iRandom === 1 && index === 0');
+				falseChoices[0] = constellationsSet[iRandom].name;
+				falseChoices[1] = constellationsSet[2].name;
+				break;
+			case iRandom === (index * 2) && (iRandom / index) !== 2 && iRandom - index !== index && index - iRandom !== iRandom:
+				console.log('index: '+ index +' iRandom: '+ iRandom +'iRandom === (index * 2) && (iRandom / index) !== 2 && iRandom - index !== index && index - iRandom !== iRandom');
+				falseChoices[0] = constellationsSet[iRandom].name;
+				falseChoices[1] = constellationsSet[(Math.abs(iRandom - 1))].name;
+				break;
+			default:
+				console.log('index: '+ index +' iRandom: '+ iRandom);
+				break; 
+		}
+	}
+
+	var randomChoicePosition1;
+	var randomChoicePosition2;
+	var randomChoicePosition3;
+
+	function generateRandomChoicePosition() {
+		var iRandom2 = Math.floor((Math.random() * 3) +1);
+		switch(iRandom2) {
+			case 1:
+				randomChoicePosition1 = iRandom2;
+				randomChoicePosition2 = 2;
+				randomChoicePosition3 = 3;
+				break;
+			case 2:
+				randomChoicePosition1 = iRandom2;
+				randomChoicePosition2 = 3;
+				randomChoicePosition3 = 1;
+				break;
+			case 3:
+				randomChoicePosition1 = iRandom2;
+				randomChoicePosition2 = 1;
+				randomChoicePosition3 = 2;
+				break;
+			default:
+				randomChoicePosition1 = 1;
+				randomChoicePosition2 = 2;
+				randomChoicePosition3 = 3;
+				break;
+		}
+	}
+
+	generateRandomChoicePosition();
+	generateRandomFalseChoices();
+
 	$('.nextSet').on('click', function() {
-		//choicesRandomize();
-		//choicesPositionRandomize();
+		$('input[name="choices"]:checked').removeAttr('checked');
 		if (index === constellationsSet.length) {
 			index = 0;
 			$('#right_or_wrong_dot').hide();
@@ -52,50 +139,50 @@ $(document).ready(function() {
 			for (each in wrongs) {
 				$('.wrong').append('<div></div>');
 			}
+			
+			// THIS IS NOT WORKING!!! goal: list all the names of constellations and on click, show stars image only
+			if ($('.summary').text() === 'summary') {
+				$(this).on('click', function() {
+					for (var i = 1; i < constellationsSet.length; i++) {
+						$('#constellationsList').append('<li>'+ constellationsSet[i - 1].name +'</li>');
+					}
+				});
+			}
+			
 			// adhoc new quiz functionality... next step: bring everything back to 0 to start anew
 			if ($('.tryAgain').text() === 'try again') {
-				$('.tryAgain').on('click', function() {
+				$(this).on('click', function() {
 					location.reload(true);
 				});
 			}
 		} else {
 			index++;
+			generateRandomFalseChoices();
+			generateRandomChoicePosition();
 			$('.stars').css("background", "url('"+ constellationsSet[index].stars +"')");
-			$('.connections').css("background", " ");
+			$('.connections').css({'background': '', 'opacity': '0', 'width': '0px', 'height': '0px'});
 			$('#right_wrong li:first').text('');
 			$('.start_and_feedback').hide();
-			$('.info').hide();
+			$('.info').hide().css({'font-size': '0px', 'opacity': '0'});;
 			$('.choices').show();
-			$('#choices_and_info li:nth-child('+ (index + 1) +') input').attr("value", rightChoice);
-			$('#choices_and_info li:nth-child('+ (index + 1) +') span').text(rightChoice);
+			$('#choices_and_info li:nth-child('+ randomChoicePosition1 +') input').attr("value", constellationsSet[index].name);
+			$('#choices_and_info li:nth-child('+ randomChoicePosition1 +') span').text(constellationsSet[index].name);
+			$('#choices_and_info li:nth-child('+ randomChoicePosition2 +') input').attr("value", falseChoices[0]);
+			$('#choices_and_info li:nth-child('+ randomChoicePosition2 +') span').text(falseChoices[0]);
+			$('#choices_and_info li:nth-child('+ randomChoicePosition3 +') input').attr("value", falseChoices[1]);
+			$('#choices_and_info li:nth-child('+ randomChoicePosition3 +') span').text(falseChoices[1]);
 		}
 	});
 
-	// USE THESE TO GENERATE RANDOM CHOICES AND TO RANDOMLY POSITION THE RIGHT CHOICE AS WELL
-	// var randomChoice1;
-	// var randomChoice2;
-	 var rightChoice = constellationsSet[index].name;	
-	// var randomChoicePosition1;
-	// var randomChoicePosition2;
-	// var randomChoicePosition3;
-
-	// NEXT::: MAKE AN ARRAY OF 3 RETURNS FROM choicesRandomize AND THEN SHUFFLE IT
-	// function choicesRandomize() {
-	// 	randomChoice1 = Math.floor((Math.random() * 7) + 1);
-	// 	randomChoice2 = Math.floor((Math.random() * 7) + 1);
-	// }
-	
-	// NEXT::: MAKE AN ARRAY OF 3 RETURNS FROM choicesPositionRandomize AND THEN SHUFFLE IT
-	// function choicesPositionRandomize() {
-	// 	randomChoicePosition1 = Math.floor((Math.random() * 3) +1);
-	// 	randomChoicePosition2 = Math.floor((Math.random() * 3) +1);
-	// 	randomChoicePosition3 = Math.floor((Math.random() * 3) +1);
-	// }
-
 	// load stars & choices
-	$('.stars').css("background", "url('"+ constellationsSet[0].stars +"')");
-	$('#choices_and_info li:nth-child('+ (index + 1) +') input').attr("value", rightChoice);
-	$('#choices_and_info li:nth-child('+ (index + 1) +') span').text(rightChoice);
+	$('.stars').css("background", "url('"+ constellationsSet[index].stars +"')");
+	$('#choices_and_info li:nth-child('+ randomChoicePosition1 +') input').attr("value", constellationsSet[index].name);
+	$('#choices_and_info li:nth-child('+ randomChoicePosition1 +') span').text(constellationsSet[index].name);
+	$('#choices_and_info li:nth-child('+ randomChoicePosition2 +') input').attr("value", falseChoices[0]);
+	$('#choices_and_info li:nth-child('+ randomChoicePosition2 +') span').text(falseChoices[0]);
+	$('#choices_and_info li:nth-child('+ randomChoicePosition3 +') input').attr("value", falseChoices[1]);
+	$('#choices_and_info li:nth-child('+ randomChoicePosition3 +') span').text(falseChoices[1]);
+
 
 	// 
 	$('input[name="choices"]').on('click', function() {
@@ -103,14 +190,12 @@ $(document).ready(function() {
 		if ($('input[name="choices"]:checked').val() === constellationsSet[index].name) {
 			// add 1 to rights array if answer was right
 			rights.push(1);
-			console.log(index);
 			$('#right_wrong li:first').text('right!');
 			// display green dot 
 			$('#right_or_wrong_dot').css('background-color', 'rgb(70, 251, 173)');
 		} else if ($('input[name="choices"]:checked').val() !== constellationsSet[index].name) {
 			// add 1 to wrongs array if answer was right
 			wrongs.push(1);
-			console.log(index);
 			$('#right_wrong li:first').text('wrong!');
 			// display red dot 
 			$('#right_or_wrong_dot').css('background-color', 'rgb(253, 83, 147)');
@@ -124,7 +209,6 @@ $(document).ready(function() {
 		if (index === (constellationsSet.length - 1)) {
 			index++;
 			$('.nextSet').text('summary');
-			console.log(index);
 		}
 	});
 
