@@ -207,3 +207,11 @@ header {
   opacity: 0;
 }
 
+#view_msg {
+  text-align: center;
+  font-size: 20px;
+}
+
+.red {
+  color: rgb(253, 83, 147);
+}

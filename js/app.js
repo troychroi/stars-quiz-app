@@ -88,7 +88,6 @@ $(document).ready(function() {
 	var randomChoicePosition1;
 	var randomChoicePosition2;
 	var randomChoicePosition3;
-
 	function generateRandomChoicePosition() {
 		var iRandom2 = Math.floor((Math.random() * 3) +1);
 		switch(iRandom2) {
@@ -201,19 +200,25 @@ $(document).ready(function() {
 			index++;
 			$('.nextSet').text('summary');
 			$('.summary').on('click', function() {
-				$('.stars').css("background", "url('"+ constellationsSet[index].stars +"')");
+				$('#view_msg').text('choose a constellation below');
 				for (var i = 0; i < constellationsSet.length; i++) {
-					$('#constellationsList').append('<li class="constellationsListItems '+ i +'">'+ constellationsSet[i].name +'</li>');
+					$('#constellationsList').append('<li class="constellationsListItems" value="'+ i +'">'+ constellationsSet[i].name +'</li>');
 				}
+			});
+			// on click, show the stars image of the clicked constellation name in list
+			var finder;
+			$('#constellationsList').on('click', '.constellationsListItems', function() {
+				finder = $(this).val();
+				$('.stars').css("background", "");
+				if ($(this).val() === finder) {
+					$('.constellationsListItems').removeClass('red');
+					$(this).addClass('red');
+				}
+				$('.stars').css("background", "url('"+ constellationsSet[finder].stars +"')");
 			});
 		}
 	});
 	
-	// on click, show the stars image of the clicked constellation name in list
-	$('#constellationsList').on('click', '.constellationsListItems', function() {
-		var thisStars = $(this).getAttribute('class');
-		$('.stars').css("background", "url('')");
-		$('.stars').css("background", "url('"+ constellationsSet[thisStars].stars +"')");
-	});
+	
 
 });
