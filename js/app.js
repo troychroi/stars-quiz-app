@@ -1,19 +1,19 @@
 $(document).ready(function() {
 
-	function Constellation(name,subname,stars,connections) {
+	function Constellation(name,subname,stars,connections,guessed) {
 		this.name = name;
 		this.subname = subname;
 		this.stars = stars;
 		this.connections = connections;
 	}
 
-	var ursaMajor = new Constellation("Ursa Major", "(Big Dipper)", "images/stars/ursa_major_stars.png", "images/connections/ursa_major_connections.png");
-	var perseus = new Constellation("Perseus", "", "images/stars/perseus_stars.png", "images/connections/perseus_connections.png");
-	var orion = new Constellation("Orion", "", "images/stars/orion_stars.png", "images/connections/orion_connections.png");
-	var hercules = new Constellation("Hercules", "", "images/stars/hercules_stars.png", "images/connections/hercules_connections.png");
-	var cygnus = new Constellation("Cygnus", "(The Swan)", "images/stars/cygnus_stars.png", "images/connections/cygnus_connections.png");
-	var cassiopea = new Constellation("Cassiopea", "", "images/stars/cassiopea_stars.png", "images/connections/cassiopea_connections.png");
-	var pegasus = new Constellation("Pegasus", "", "images/stars/pegasus_stars.png", "images/connections/pegasus_connections.png");
+	var ursaMajor = new Constellation("Ursa Major", "(Big Dipper)", "images/stars/ursa_major_stars.png", "images/connections/ursa_major_connections.png", "");
+	var perseus = new Constellation("Perseus", "", "images/stars/perseus_stars.png", "images/connections/perseus_connections.png", "");
+	var orion = new Constellation("Orion", "", "images/stars/orion_stars.png", "images/connections/orion_connections.png", "");
+	var hercules = new Constellation("Hercules", "", "images/stars/hercules_stars.png", "images/connections/hercules_connections.png", "");
+	var cygnus = new Constellation("Cygnus", "(The Swan)", "images/stars/cygnus_stars.png", "images/connections/cygnus_connections.png", "");
+	var cassiopea = new Constellation("Cassiopea", "", "images/stars/cassiopea_stars.png", "images/connections/cassiopea_connections.png", "");
+	var pegasus = new Constellation("Pegasus", "", "images/stars/pegasus_stars.png", "images/connections/pegasus_connections.png", "");
 
 	var rights = [];
 	var wrongs = [];
@@ -174,12 +174,14 @@ $(document).ready(function() {
 	$('#choices_and_info li:nth-child('+ randomChoicePosition3 +') span').text(falseChoices[1]);
 
 
-	// 
+	var guessed = $('input[name="choices"]:checked').val();
 	$('input[name="choices"]').on('click', function() {
 		$('.connections').css("background", "url('"+ constellationsSet[index].connections +"')").animate({'opacity': '1', 'width': '500px', 'height': '500px'}, 'slow');
 		if ($('input[name="choices"]:checked').val() === constellationsSet[index].name) {
 			// add 1 to rights array if answer was right
 			rights.push(1);
+			constellationsSet[index].guessed = 'right';
+			console.log(constellationsSet[index].guessed);
 			$('#right_wrong li:first').text('right!');
 			// display green dot 
 			$('#right_or_wrong_dot').css('background-color', 'rgb(70, 251, 173)');
@@ -202,18 +204,27 @@ $(document).ready(function() {
 			$('.summary').on('click', function() {
 				$('#view_msg').text('choose a constellation below');
 				for (var i = 0; i < constellationsSet.length; i++) {
-					$('#constellationsList').append('<li class="constellationsListItems" value="'+ i +'">'+ constellationsSet[i].name +'</li>');
+					$('#constellationsList').append('<li class="constellationsListItems '+ constellationsSet[i].guessed +'" value="'+ i +'">'+ constellationsSet[i].name +'</li>');
 				}
 			});
-			// on click, show the stars image of the clicked constellation name in list
+			// NEXT:: add whether it was guessed right or wrong to the object, and display the color (red or green) along with the image of the stars
 			var finder;
 			$('#constellationsList').on('click', '.constellationsListItems', function() {
 				finder = $(this).val();
-				$('.stars').css("background", "");
 				if ($(this).val() === finder) {
-					$('.constellationsListItems').removeClass('red');
-					$(this).addClass('red');
+					if ($(this).text() === constellationsSet[finder].name && constellationsSet[finder].guessed === 'right') {
+						console.log('this was right');
+						$('.constellationsListItems').removeClass('red');
+						$('.constellationsListItems').removeClass('green');
+						$(this).addClass('green');
+					} else {
+						console.log('this was wrong');
+						$('.constellationsListItems').removeClass('red');
+						$('.constellationsListItems').removeClass('green');
+						$(this).addClass('red');
+					}
 				}
+				$('.stars').css("background", "");
 				$('.stars').css("background", "url('"+ constellationsSet[finder].stars +"')");
 			});
 		}
